@@ -1,5 +1,5 @@
 
-nam= input ('What is your name? ')
+nam= input ('Enter your name? ')
 print ('Welcome' , nam)
 
 hours= input ('Enter number of hours ')
