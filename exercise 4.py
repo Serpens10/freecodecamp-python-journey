@@ -1,7 +1,7 @@
 hours= input('Enter hours: ')
 rate= input('Enter rate: ')
-ihours= int(hours)
-irate= int(rate)
+ihours= float(hours)
+irate= float(rate)
 if ihours > 40 :
     extrahours= ihours-40
     extrarate= irate * 1.5
