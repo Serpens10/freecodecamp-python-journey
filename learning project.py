@@ -16,7 +16,7 @@ symbol_count = {
 
 def get_spin(rows, cols, symbols) :
     all_symbols= []
-    for symbol, symbol_count in symbols.item():
+    for symbol, symbol_count in symbols.items():
         for _ in range(symbol_count):
             all_symbols.append(symbol)
 
@@ -30,7 +30,15 @@ def get_spin(rows, cols, symbols) :
             column.append(value)   
         column.append(column) 
 
-    return columns      
+    return columns     
+
+def print_slot_machine(columns):
+    for row in range(len(columns)):
+        for i, column in enumerate(columns):
+            if i != len(columns) - 1:
+                print(columns[row], " | ")
+            else:
+                print(column[row])    
 
     
 
@@ -91,5 +99,7 @@ def main() :
             break    
     print(f"You are betting ${bet_amount} on {lines} lines. Total bet is equal to ${total_bet} and your remaining money is ${rem_balance}")   
     
+    slots = get_spin(ROWS, COLS, symbol_count)
+    print_slot_machine(slots)
 
 main ()    
