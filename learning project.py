@@ -28,7 +28,8 @@ def get_spin(rows, cols, symbols) :
             value = random.choice(current_symbols)   
             current_symbols.remove(value) 
             column.append(value)   
-        column.append(column) 
+
+        columns.append(column) 
 
     return columns     
 
@@ -36,7 +37,7 @@ def print_slot_machine(columns):
     for row in range(len(columns)):
         for i, column in enumerate(columns):
             if i != len(columns) - 1:
-                print(columns[row], " | ")
+                print(column[row], " | ")
             else:
                 print(column[row])    
 
