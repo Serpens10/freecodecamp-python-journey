@@ -20,6 +20,18 @@ def get_spin(rows, cols, symbols) :
         for _ in range(symbol_count):
             all_symbols.append(symbol)
 
+    columns = []
+    for _ in range(cols):
+        column = []
+        current_symbols = all_symbols[:]
+        for _ in range(rows):
+            value = random.choice(current_symbols)   
+            current_symbols.remove(value) 
+            column.append(value)   
+        column.append(column) 
+
+    return columns      
+
     
 
 def deposit():
