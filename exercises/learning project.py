@@ -106,7 +106,9 @@ def get_bet() :
         except ValueError :
             print("Please enter amount in numerical form.")
         
-    return bet_amount   
+    return bet_amount  
+
+balance = 0 
 
 def the_game() :
     lines = get_number_of_lines()

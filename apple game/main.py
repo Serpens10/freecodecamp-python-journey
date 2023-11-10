@@ -6,6 +6,12 @@ screen = pygame.display.set_mode((350, 600))
 screen_rect = screen.get_rect()
 clock = pygame.time.Clock()
 
+class Apple:
+    def __init__(self, image, position, speed):
+        self.image = image
+        self.rect = self.image.get_rect(topleft = position)
+        self.speed = speed
+
 # constants
 TILESIZE = 32
 
@@ -19,6 +25,18 @@ player_image = pygame.image.load('assets/player_static.png').convert_alpha()
 player_image = pygame.transform.scale(player_image, (TILESIZE, TILESIZE*2))
 player_rect = player_image.get_rect(center = (screen.get_width()/2,
                                     screen.get_height()-floor_image.get_height()-player_image.get_height()/2))
+
+# apple
+
+apple_image = pygame.image.load('assets/apple.png').convert_alpha
+apple_image = pygame.transform.scale(apple_image, (TILESIZE, TILESIZE))
+
+apples = [
+apple1= Apple(apple_image, (100, 0), 3),
+apple2= Apple(apple_image, (300, 0), 3)
+
+]
+
 
 def update():
     keys = pygame.key.get_pressed()
