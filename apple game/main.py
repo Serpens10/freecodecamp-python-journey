@@ -1,5 +1,6 @@
 import pygame
 import sys
+import random
 
 pygame.init()
 screen = pygame.display.set_mode((350, 600))
@@ -11,6 +12,8 @@ class Apple:
         self.image = image
         self.rect = self.image.get_rect(topleft = position)
         self.speed = speed
+    def move(self):
+        self.rect.y += self.speed    
 
 # constants
 TILESIZE = 32
@@ -28,16 +31,16 @@ player_rect = player_image.get_rect(center = (screen.get_width()/2,
 
 # apple
 
-apple_image = pygame.image.load('assets/apple.png').convert_alpha
+apple_image = pygame.image.load('assets/apple.png').convert_alpha()
 apple_image = pygame.transform.scale(apple_image, (TILESIZE, TILESIZE))
 
 apples = [
-apple1= Apple(apple_image, (100, 0), 3),
-apple2= Apple(apple_image, (300, 0), 3)
+Apple(apple_image, (100, 0), 3),
+Apple(apple_image, (300, 0), 3),
 
 ]
 
-
+running = True 
 def update():
     keys = pygame.key.get_pressed()
 
@@ -48,12 +51,24 @@ def update():
 
     player_rect.clamp_ip(screen_rect)    
 
-running = True 
+    # apple dept
+    for apple in apples:
+        apple.move()
+        if apple.rect.colliderect(floor_rect):
+            apples.remove(apple)
+            apples.append(Apple(apple_image, (random.randint(50, 300), -50), 3))
+        elif apple.rect.colliderect(player_rect):
+            apples.remove(apple)
+            apples.append(Apple(apple_image, (random.randint(50, 300), -50), 3))     
+
 
 def draw():
     screen.fill('lightblue')
     screen.blit(player_image, player_rect)
     screen.blit(floor_image, floor_rect)
+
+    for apple in apples:
+        screen.blit(apple.image, apple.rect)    
 
 # game loop to keep screen open, create boolean variable
 
@@ -61,7 +76,7 @@ while running :
     for event in pygame.event.get() :
         if event.type == pygame.QUIT:
             pygame.quit()
-            sys.exit()
+            sys.exit()    
 
     update()
     draw()
