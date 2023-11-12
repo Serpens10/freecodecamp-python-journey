@@ -23,7 +23,8 @@ class Bottle:
     def move(self):
         self.rect.y += self.speed    
 
-
+# vars
+speed = 3
 # constants
 TILESIZE = 32
 
@@ -42,7 +43,7 @@ player_rect = player_image.get_rect(center = (screen.get_width()/2,
 
 apple_image = pygame.image.load('assets/apple.png').convert_alpha()
 apple_image = pygame.transform.scale(apple_image, (TILESIZE, TILESIZE))
-apple_rect = apple_image.get_rect()
+
 
 apples = [
 Apple(apple_image, (100, 0), 3),
@@ -54,7 +55,7 @@ Apple(apple_image, (250, 0), 3),
 
 bottle_image = pygame.image.load('assets/illustration.png').convert_alpha()
 bottle_image = pygame.transform.scale(bottle_image, (TILESIZE/2, TILESIZE))
-bottle_rect = bottle_image.get_rect()
+
 
 bottles = [
 Bottle(bottle_image, (50, 0), 3),
@@ -62,11 +63,13 @@ Bottle(bottle_image, (150, 0), 3),
 
 ]
 
-d = (apple_rect/2 ) - (bottle_rect/2)
+
 
 running = True 
 
 def update():
+    global speed
+
     keys = pygame.key.get_pressed()
 
     if keys[pygame.K_LEFT]:
@@ -81,32 +84,25 @@ def update():
         apple.move()
         if apple.rect.colliderect(floor_rect):
             apples.remove(apple)
-            apples.append(Apple(apple_image, (random.randint(50, 300), -50), 3))
+            apples.append(Apple(apple_image, (random.randint(50, 300), -50), speed))
+            speed += 0.1
         elif apple.rect.colliderect(player_rect):
             apples.remove(apple)
-            apples.append(Apple(apple_image, (random.randint(50, 300), -50), 3))     
+            apples.append(Apple(apple_image, (random.randint(50, 300), -50), speed))     
 
 
     # bottle dept
 
-    collide = False
     for bottle in bottles:
         bottle.move()
         if bottle.rect.colliderect(floor_rect):
-            bottles.remove(bottle)
-            if d < 32:
-                collide = True
-                break
-            if not collide:    
-                bottles.append(Bottle(bottle_image, (random.randint(50, 300), -50), 3))
+            bottles.remove(bottle)   
+            bottles.append(Bottle(bottle_image, (random.randint(50, 300), -50), speed))
+            speed += 0.2
             # 50 to 300 is padding for the random positions
         elif bottle.rect.colliderect(player_rect):
             bottles.remove(bottle)
-            if  d < 32:
-                collide = True
-                break
-            if not collide: 
-                bottles.append(Bottle(bottle_image, (random.randint(50, 300), -50), 3))   
+            bottles.append(Bottle(bottle_image, (random.randint(50, 300), -50), speed))   
 
 
 def draw():
