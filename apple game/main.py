@@ -15,6 +15,15 @@ class Apple:
     def move(self):
         self.rect.y += self.speed    
 
+class Bottle:
+    def __init__(self, image, position, speed):
+        self.image = image
+        self.rect = self.image.get_rect(topleft = position)
+        self.speed = speed
+    def move(self):
+        self.rect.y += self.speed    
+
+
 # constants
 TILESIZE = 32
 
@@ -36,11 +45,23 @@ apple_image = pygame.transform.scale(apple_image, (TILESIZE, TILESIZE))
 
 apples = [
 Apple(apple_image, (100, 0), 3),
-Apple(apple_image, (300, 0), 3),
+Apple(apple_image, (250, 0), 3),
+
+]
+
+# bottle
+
+bottle_image = pygame.image.load('assets/illustration.png').convert_alpha()
+bottle_image = pygame.transform.scale(bottle_image, (TILESIZE/2, TILESIZE))
+
+bottles = [
+Bottle(bottle_image, (50, 0), 3),
+Bottle(bottle_image, (150, 0), 3),
 
 ]
 
 running = True 
+
 def update():
     keys = pygame.key.get_pressed()
 
@@ -61,6 +82,17 @@ def update():
             apples.remove(apple)
             apples.append(Apple(apple_image, (random.randint(50, 300), -50), 3))     
 
+    # bottle dept
+    for bottle in bottles:
+        bottle.move()
+        if bottle.rect.colliderect(floor_rect):
+            bottles.remove(bottle)
+            bottles.append(Bottle(bottle_image, (random.randint(50, 300), -50), 3))
+            # 50 to 300 is padding for the random positions
+        elif bottle.rect.colliderect(player_rect):
+            bottles.remove(bottle)
+            bottles.append(Bottle(bottle_image, (random.randint(50, 300), -50), 3))   
+
 
 def draw():
     screen.fill('lightblue')
@@ -68,7 +100,10 @@ def draw():
     screen.blit(floor_image, floor_rect)
 
     for apple in apples:
-        screen.blit(apple.image, apple.rect)    
+        screen.blit(apple.image, apple.rect)   
+
+    for bottle in bottles:
+        screen.blit(bottle.image, bottle.rect)    
 
 # game loop to keep screen open, create boolean variable
 
