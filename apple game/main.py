@@ -25,6 +25,7 @@ class Bottle:
 
 # vars
 speed = 3
+score = 0
 # constants
 TILESIZE = 32
 
@@ -63,12 +64,15 @@ Bottle(bottle_image, (150, 0), 3),
 
 ]
 
-
+font = pygame.font.Font('assets/PixeloidMono.ttf', TILESIZE//2)
+pickup = pygame.mixer.Sound('assets/powerup.mp3')
+pickup.set_volume(0.1)
 
 running = True 
 
 def update():
     global speed
+    global score
 
     keys = pygame.key.get_pressed()
 
@@ -88,7 +92,9 @@ def update():
             speed += 0.1
         elif apple.rect.colliderect(player_rect):
             apples.remove(apple)
-            apples.append(Apple(apple_image, (random.randint(50, 300), -50), speed))     
+            apples.append(Apple(apple_image, (random.randint(50, 300), -50), speed))
+            score += 1   
+            pickup.play()  
 
 
     # bottle dept
@@ -102,7 +108,9 @@ def update():
             # 50 to 300 is padding for the random positions
         elif bottle.rect.colliderect(player_rect):
             bottles.remove(bottle)
-            bottles.append(Bottle(bottle_image, (random.randint(50, 300), -50), speed))   
+            bottles.append(Bottle(bottle_image, (random.randint(50, 300), -50), speed))  
+            score += 2 
+            pickup.play()
 
 
 def draw():
@@ -114,7 +122,10 @@ def draw():
         screen.blit(apple.image, apple.rect)   
 
     for bottle in bottles:
-        screen.blit(bottle.image, bottle.rect)    
+        screen.blit(bottle.image, bottle.rect)  
+
+    score_text = font.render(f'Score: {score}', True, "white")    
+    screen.blit(score_text, (5 , 5))  
 
 # game loop to keep screen open, create boolean variable
 
